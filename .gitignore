@@ -1,5 +1,7 @@
 venv
 *.pyc
 staticfiles
-environment.sh
+start.sh
 .idea*
+driver/*
+Test.py
