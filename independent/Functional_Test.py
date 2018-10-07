@@ -52,3 +52,12 @@ class FunctionalTest(TestCase):
         self.browser.implicitly_wait(3)
         # span=self.browser.find_element(By.XPATH, '//span[text()="Reinaldo Portocarrero"]')
         # self.assertIn('Reinaldo Portocarrero', span.text)
+
+    def test_verDetalle(self):
+        self.browser.get('http://localhost:8000')
+        span = self.browser.find_element(By.XPATH, '//span[text()="Reinaldo Portocarrero"]')
+        span.click()
+
+        h2 = self.browser.find_element(By.XPATH, '//h2[text()="Reinaldo Portocarrero"]')
+
+        self.assertIn('Reinaldo Portocarrero', h2.text)
