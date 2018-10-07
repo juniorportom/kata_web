@@ -6,8 +6,8 @@ from selenium.webdriver.common.by import By
 class FunctionalTest(TestCase):
 
     def setUp(self):
-        # self.browser = webdriver.Chrome(os.environ['CHROME_DRIVER'])
-        self.browser = webdriver.Chrome('/Users/juniorportom/projects/pruebas/chromedriver')
+        self.browser = webdriver.Chrome(os.environ['CHROME_DRIVER'])
+        # self.browser = webdriver.Chrome('/Users/juniorportom/projects/pruebas/chromedriver')
         self.browser.implicitly_wait(2)
 
     def tearDown(self):
