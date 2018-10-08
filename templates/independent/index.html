@@ -43,6 +43,28 @@
     <h1>Busco Ayuda</h1>
     <p>Encuentra aquí la ayuda que necesitas.</p>
 </div>
+<div id="trabajadores">
+    {% for trabajador in trabajadores %}
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="text-align: center; background-color: black;">
+                    <span style="color: white; font-size: large;">{{ trabajador.tiposDeServicio.nombre }}</span>
+                    <!--suppress HtmlUnknownTarget -->
+                    <img src="media/{{ trabajador.tiposDeServicio.imagen }}" width="50"/>
+                </div>
+                <div class="panel-body" style="text-align: center">
+                    <a class="trabajador" href="#" data-form="{{ trabajador.id }}" style="text-decoration: none;">
+                        <!--suppress HtmlUnknownTarget -->
+                        <img class="thumbnail img-responsive center-block"
+                             src="media/{{ trabajador.imagen }}" width="300"
+                             height="300">
+                        <span>{{ trabajador.nombre }} {{ trabajador.apellidos }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 
 {% include "independent/registro.html" %}
 <!--suppress JSUnresolvedFunction -->
@@ -52,10 +74,49 @@
         $('#id_register').click(function () {
             $('#register_modal').modal();
         });
-
+        $('.trabajador').click(function () {
+            var trabajador = $(this).data("form");
+            localStorage.setItem('trabajador', trabajador);
+            window.location = "/detail";
+        });
 
     });
+    function detalle(id){
+            localStorage.setItem('trabajador', id);
+            window.location = "/detail";
+}
 
+    function mostrarTrabajadores(){
+
+        $.getJSON("/mostrarTrabajadores/" + $("#buscar").val()).done(function (data) {
+            $('#trabajadores').empty();
+                $.each(data, function (key, val) {
+                    $.get( "/tipoServicio/"+val.fields.tiposDeServicio, function( dataTipo ) {
+                        dataTipo=jQuery.parseJSON(dataTipo);
+                      var tipo=dataTipo[0].fields.nombre;
+                      var imagenTipo= dataTipo[0].fields.imagen;
+
+                    var div='<div class="col-sm-4 col-md-3">'+
+                            '<div class="panel panel-default">'+
+                                '<div class="panel-heading" style="text-align: center; background-color: black;">'+
+                                    '<span style="color: white; font-size: large;">'+tipo+'</span>'+
+                                    '<img src="media/'+imagenTipo+'" />'+
+                                '</div>'+
+                                '<div class="panel-body" style="text-align: center">'+
+                                    '<a onclick="detalle('+val.pk+')" class="trabajador" href="#" data-form="'+val.fields.id+'" style="text-decoration: none;">'+
+                                        '<img class="thumbnail img-responsive center-block"'+
+                                             'src="media/'+val.fields.imagen+'" width="300"'+
+                                             'height="300">'+
+                                        '<span>'+val.fields.nombre+' '+val.fields.apellidos+'</span>'+
+                                    '</a>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>';
+                        $('#trabajadores').append(div);
+                    });
+                })
+            });
+    }
 </script>
 </body>
 </html>

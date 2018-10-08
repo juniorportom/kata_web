@@ -56,3 +56,20 @@ def register(request):
     # return render(request, "independent/registro.html")
 
     return HttpResponseRedirect('/')
+
+def detalle_trabajador(request):
+    return render(request, "independent/detalle.html")
+
+def detail(request, pk):
+    trabajador = get_object_or_404(Trabajador, pk=pk)
+    return HttpResponse(serializers.serialize("json", [trabajador]))
+
+@csrf_exempt
+def mostrarTrabajadores(request, tipo=""):
+    if tipo == "":
+      lista_trabajadores = Trabajador.objects.all()
+    else:
+      lista_trabajadores = Trabajador.objects.select_related().filter(tiposDeServicio__nombre__icontains=tipo)
+
+
+    return HttpResponse(serializers.serialize("json", lista_trabajadores))
