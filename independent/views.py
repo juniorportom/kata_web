@@ -91,3 +91,21 @@ def logout(request):
     auth.logout(request)
     messages.info(request, "Cerraste sesión exitosamente", extra_tags="alert-info")
     return HttpResponseRedirect('/')
+
+def editar_perfil(request,idTrabajador):
+    trabajador=Trabajador.objects.get(usuarioId=idTrabajador)
+    if request.method == 'POST':
+        # formulario enviado
+        form_trabajador = TrabajadorForm(request.POST, request.FILES, instance=trabajador)
+
+        if form_trabajador.is_valid():
+            # formulario validado correctamente
+            form_trabajador.save()
+            return HttpResponseRedirect('/')
+
+    else:
+        # formulario inicial
+        form_trabajador = TrabajadorForm(instance=trabajador)
+
+    context = {'form_trabajador': form_trabajador}
+    return render(request, 'independent/editar.html', context)
