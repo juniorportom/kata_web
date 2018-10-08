@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^trabajador/(?P<pk>\d+)$', views.detail),
     url(r'^mostrarTrabajadores/(?P<tipo>\w+)$', views.mostrarTrabajadores),
     url(r'^mostrarTrabajadores', views.mostrarTrabajadores),
+    url(r'^login$', views.login),
+    url(r'^logout$', views.logout),
 ]

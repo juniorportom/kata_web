@@ -6,8 +6,8 @@ from selenium.webdriver.common.by import By
 class FunctionalTest(TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome(os.environ['CHROME_DRIVER'])
-        # self.browser = webdriver.Chrome('/Users/juniorportom/projects/pruebas/chromedriver')
+        # self.browser = webdriver.Chrome(os.environ['CHROME_DRIVER'])
+        self.browser = webdriver.Chrome('/Users/juniorportom/projects/pruebas/chromedriver')
         self.browser.implicitly_wait(2)
 
     def tearDown(self):
@@ -50,8 +50,8 @@ class FunctionalTest(TestCase):
         botonGrabar = self.browser.find_element_by_id('id_grabar')
         botonGrabar.click()
         self.browser.implicitly_wait(3)
-        # span=self.browser.find_element(By.XPATH, '//span[text()="Reinaldo Portocarrero"]')
-        # self.assertIn('Reinaldo Portocarrero', span.text)
+        span=self.browser.find_element(By.XPATH, '//span[text()="Reinaldo Portocarrero"]')
+        self.assertIn('Reinaldo Portocarrero', span.text)
 
     def test_verDetalle(self):
         self.browser.get('http://localhost:8000')
@@ -67,10 +67,10 @@ class FunctionalTest(TestCase):
         link = self.browser.find_element_by_id('id_login')
         link.click()
 
-        nombreUsuario = self.browser.find_element_by_id('id_username')
+        nombreUsuario = self.browser.find_element_by_id('id_usrname')
         nombreUsuario.send_keys('porto')
 
-        clave = self.browser.find_element_by_id('id_password')
+        clave = self.browser.find_element_by_id('id_psw')
         clave.send_keys('prueba123')
 
         ingresar = self.browser.find_element_by_id('id_ingresar')

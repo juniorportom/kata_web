@@ -43,6 +43,7 @@
     <h1>Busco Ayuda</h1>
     <p>Encuentra aquí la ayuda que necesitas.</p>
 </div>
+{% if not user.is_authenticated %}
 <div id="trabajadores">
     {% for trabajador in trabajadores %}
         <div class="col-sm-4 col-md-3">
@@ -65,12 +66,25 @@
         </div>
     {% endfor %}
 </div>
-
+{% else %}
+    <div class="container" style="padding: 5px">
+        {% if user.is_authenticated %}
+            <h3>Administrar</h3>
+            <p>Salir del sitio e ir al módulo de administración principal del sistema en Django.</p>
+            <a class="glyphicon glyphicon-exclamation-sign" href="admin" target="_blank"> Abrir</a>
+        {% endif %}
+    </div>
+{% endif %}
+{% include "polls/r
 {% include "independent/registro.html" %}
+{% include "independent/login.html" %}
 <!--suppress JSUnresolvedFunction -->
 <!--suppress JSUnresolvedFunction -->
 <script>
     $(document).ready(function () {
+        $('#id_login').click(function () {
+            $('#login_modal').modal();
+        });
         $('#id_register').click(function () {
             $('#register_modal').modal();
         });

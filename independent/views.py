@@ -71,5 +71,23 @@ def mostrarTrabajadores(request, tipo=""):
     else:
       lista_trabajadores = Trabajador.objects.select_related().filter(tiposDeServicio__nombre__icontains=tipo)
 
-
     return HttpResponse(serializers.serialize("json", lista_trabajadores))
+
+
+def login(request):
+    username = request.POST.get('usrname', '')
+    password = request.POST.get('psw', '')
+    user = auth.authenticate(username=username, password=password)
+    if user is not None:
+        auth.login(request, user)
+        messages.success(request, "Bienvenido al sistema {}".format(username), extra_tags="alert-success")
+        return HttpResponseRedirect('/')
+    else:
+        messages.error(request, "¡El usuario o la contraseña son incorrectos!", extra_tags="alert-danger")
+        return HttpResponseRedirect('/')
+
+
+def logout(request):
+    auth.logout(request)
+    messages.info(request, "Cerraste sesión exitosamente", extra_tags="alert-info")
+    return HttpResponseRedirect('/')
