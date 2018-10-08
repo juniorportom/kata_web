@@ -7,8 +7,7 @@ from django.core import serializers
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Trabajador
-#Comentario
+from .models import Trabajador, Comentario
 from .models import TiposDeServicio
 from .forms import TrabajadorForm, UserForm
 from django.shortcuts import render, get_object_or_404
@@ -109,3 +108,18 @@ def editar_perfil(request,idTrabajador):
 
     context = {'form_trabajador': form_trabajador}
     return render(request, 'independent/editar.html', context)
+
+@csrf_exempt
+def add_comment(request):
+    if request.method == 'POST':
+       new_comment = Comentario(texto=request.POST.get('texto'),
+                                      trabajador=Trabajador.objects.get(pk=request.POST.get('trabajador')),
+                                      correo=request.POST.get('correo'))
+       new_comment.save()
+    return HttpResponse(serializers.serialize("json", [new_comment]))
+
+@csrf_exempt
+def mostrarComentarios(request, idTrabajador):
+    lista_comentarios =Comentario.objects.filter(trabajador=Trabajador.objects.get(pk=idTrabajador))
+
+    return HttpResponse(serializers.serialize("json", lista_comentarios))

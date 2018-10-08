@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import TiposDeServicio, Trabajador
+from .models import TiposDeServicio, Trabajador, Comentario
 
 # Register your models here.
 
@@ -17,3 +17,4 @@ class TrabajadorAdmin(admin.ModelAdmin):
 
 admin.site.register(TiposDeServicio, TiposDeServicioAdmin)
 admin.site.register(Trabajador, TrabajadorAdmin)
+admin.site.register(Comentario, ComentarioAdmin)

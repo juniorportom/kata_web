@@ -27,3 +27,9 @@ class Trabajador(models.Model):
     correo = models.CharField(max_length=1000)
     imagen = models.ImageField(upload_to='photos', null=True, blank=True)
     usuarioId = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+
+
+class Comentario(models.Model):
+    texto = models.CharField(max_length=1000)
+    trabajador = models.ForeignKey(Trabajador, on_delete=models.CASCADE, null=True)
+    correo = models.CharField(max_length=1000)
