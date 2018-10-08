@@ -80,3 +80,56 @@ class FunctionalTest(TestCase):
 
         h3=self.browser.find_element(By.XPATH, '//h3[text()="Administrar"]')
         self.assertIn('Administrar', h3.text)
+
+    def test_editar_perfil(self):
+        self.browser.get('http://localhost:8000')
+        link = self.browser.find_element_by_id('id_login')
+        link.click()
+
+        nombreUsuario = self.browser.find_element_by_id('id_usrname')
+        nombreUsuario.send_keys('porto')
+
+        clave = self.browser.find_element_by_id('id_psw')
+        clave.send_keys('prueba123')
+
+        ingresar = self.browser.find_element_by_id('id_ingresar')
+        ingresar.click()
+
+        self.browser.implicitly_wait(3)
+
+        h3 = self.browser.find_element(By.XPATH, '//h3[text()="Administrar"]')
+        self.assertIn('Administrar', h3.text)
+
+        link = self.browser.find_element_by_id('id_editar')
+        link.click()
+
+        nombre = self.browser.find_element_by_id('id_nombre')
+        nombre.send_keys('Sebastian')
+
+        apellidos = self.browser.find_element_by_id('id_apellidos')
+        apellidos.send_keys('Martinez')
+
+        experiencia = self.browser.find_element_by_id('id_aniosExperiencia')
+        experiencia.send_keys('1')
+
+        self.browser.find_element_by_xpath("//select[@id='id_tiposDeServicio']/option[text()='Desarrollador Web']").click()
+        telefono = self.browser.find_element_by_id('id_telefono')
+        telefono.send_keys('300000000')
+
+        correo = self.browser.find_element_by_id('id_correo')
+        correo.send_keys('rj.portocarrero281@uniandes.edu.co')
+
+        imagen = self.browser.find_element_by_id('id_imagen')
+        imagen.send_keys('/Users/juniorportom/Downloads/logo-1.png')
+
+        nombreUsuario = self.browser.find_element_by_id('id_username')
+        nombreUsuario.send_keys('porto')
+
+        clave = self.browser.find_element_by_id('id_password')
+        clave.send_keys('prueba123')
+
+        botonGrabar = self.browser.find_element_by_id('id_grabar')
+        botonGrabar.click()
+        self.browser.implicitly_wait(3)
+        span=self.browser.find_element(By.XPATH, '//span[text()="Reinaldo Portocarrero"]')
+        self.assertIn('Reinaldo Portocarrero', span.text)
